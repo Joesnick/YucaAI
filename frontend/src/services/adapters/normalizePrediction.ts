@@ -37,7 +37,7 @@ function isNum(v: unknown): v is number {
 
 /** Extrae pares (etiqueta, valor) de cualquiera de las variantes aceptadas. */
 function extractPairs(r: ApiPredictResponse, warnings: string[]): Array<{ rawLabel: string; value: number }> {
-  const source = r.scores ?? r.probabilities;
+  const source = r.scores ?? r.probabilities ?? (r as ApiPredictResponse & { probabilidades?: Record<string, number> | number[] }).probabilidades;
   const names = r.class_names ?? r.labels;
   if (source === undefined || source === null) {
     throw new PredictionFormatError('La respuesta del servidor no incluye puntuaciones (campo "scores" o "probabilities").');
@@ -118,7 +118,7 @@ export function normalizePrediction(payload: unknown): NormalizedPrediction {
   }
 
   const top = scores.reduce((a, b) => (b.score > a.score ? b : a));
-  const reportedLabel = r.predicted_class ?? r.prediction ?? r.label ?? r.class;
+  const reportedLabel = r.predicted_class ?? r.prediction ?? r.prediccion ?? r.label ?? r.class;
   let predictedKey: ClassKey;
   let predictedDerived = false;
   if (reportedLabel !== undefined && reportedLabel !== null && String(reportedLabel) !== '') {
@@ -136,6 +136,7 @@ export function normalizePrediction(payload: unknown): NormalizedPrediction {
     warnings.push('El servidor no indicó la clase predicha; se muestra la clase con la mayor puntuación recibida.');
   }
 
+  if (Array.isArray(r.advertencias)) warnings.push(...r.advertencias.filter((item): item is string => typeof item === 'string'));
   const modelReported = [r.model_id, r.model, r.model_version].find((v) => typeof v === 'string' && v) as string | undefined;
   const inf = [r.inference_ms, r.inference_time_ms].find(isNum);
 

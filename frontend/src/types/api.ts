@@ -14,6 +14,13 @@ export interface ApiHealthResponse {
 export interface ApiPredictResponse {
   predicted_class?: string;
   prediction?: string;
+  prediccion?: string;
+  valid?: boolean;
+  confiable?: boolean;
+  confianza?: number;
+  nombre_clase?: string;
+  recomendacion?: string;
+  advertencias?: string[];
   label?: string;
   class?: string;
   scores?: Record<string, number> | number[] | Array<{ label?: string; class?: string; name?: string; score?: number; probability?: number; confidence?: number }>;

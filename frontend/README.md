@@ -5,20 +5,25 @@ Aplicación responsive de una sola pantalla para analizar hojas de yuca. React 1
 ## Instalación y ejecución
 
 ```bash
+# Terminal 1: backend
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# Terminal 2: frontend
+cd frontend
 npm install
-cp .env.example .env
 npm run dev
-npm run build
 ```
 
-Configura `VITE_API_BASE_URL` para habilitar el análisis real. Si está vacía, el botón explica por qué permanece deshabilitado.
+El frontend usa `http://localhost:8000` por defecto. Cambia la URL con `VITE_API_BASE_URL` en `frontend/.env`.
 
 ## Variables de entorno
 
 | Variable                               | Por defecto                                  | Uso                                                                   |
 | -------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------- |
-| `VITE_API_BASE_URL`                    | vacío                                        | URL base del backend; `http://localhost:8000/api` es solo un ejemplo. |
-| `VITE_API_HEALTH_PATH`                 | `/health`                                    | Endpoint opcional de salud.                                           |
+| `VITE_API_BASE_URL`                    | `http://localhost:8000`                 | Backend base URL.                                                     |
+| `VITE_API_HEALTH_PATH`                 | `/`                                    | Endpoint opcional de salud.                                           |
 | `VITE_API_PREDICT_PATH`                | `/predict`                                   | Clasificación.                                                        |
 | `VITE_API_IMAGE_FIELD`                 | `file`                                       | Campo multipart de la imagen original.                                |
 | `VITE_API_TIMEOUT_MS`                  | `30000`                                      | Tiempo máximo por solicitud.                                          |
@@ -31,9 +36,6 @@ Configura `VITE_API_BASE_URL` para habilitar el análisis real. Si está vacía,
 
 `src/` contiene configuración, servicios HTTP y normalización, hooks de backend/imagen/análisis, contexto temporal, componentes de layout/carga/resultado y utilidades. La aplicación no usa React Router: `App.tsx` renderiza directamente `Layout`, encabezado, carga, análisis y resultado.
 
-## Pendientes del backend
+## Integracion con el backend
 
-1. Implementar `POST /predict` con `file` y respuesta de clasificación; `model_id` solo si resulta obligatorio.
-2. Configurar CORS para el origen del frontend sin desactivar la seguridad del navegador.
-3. Recomendado: `GET /health`; un `404` se considera backend en línea sin endpoint de salud.
-4. Confirmar etiquetas, preprocesamiento y forma definitiva de la respuesta.
+El backend expone `GET /` para verificar disponibilidad y `POST /predict` con la imagen en el campo multipart `file`. El adaptador reconoce `prediccion`, `probabilidades` y `advertencias` de la respuesta FastAPI. CORS esta habilitado para desarrollo.

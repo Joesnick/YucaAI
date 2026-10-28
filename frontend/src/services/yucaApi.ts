@@ -18,6 +18,12 @@ export async function predict(file: File, signal?: AbortSignal): Promise<Predict
   const started = performance.now();
   const raw = await request<unknown>(API_CONFIG.paths.predict, { method: 'POST', body: form, signal });
   const latencyMs = Math.round(performance.now() - started);
+  if (raw && typeof raw === 'object' && (raw as { valid?: unknown }).valid === false) {
+    const rejection = raw as { message?: unknown; razon?: unknown; sugerencias?: unknown };
+    const details = [rejection.message, rejection.razon, ...(Array.isArray(rejection.sugerencias) ? rejection.sugerencias : [])]
+      .filter((item): item is string => typeof item === 'string' && item.trim().length > 0);
+    throw new ApiError('validation', details.join(' '), { details: raw });
+  }
   try { return { ...normalizePrediction(raw), latencyMs }; }
   catch (err) { throw new ApiError('invalid-response', `Respuesta de predicción no válida: ${(err as Error).message}`, { details: raw }); }
 }

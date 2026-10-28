@@ -1,6 +1,6 @@
 # YucaAI
 
-YucaAI clasifica fotografías de hojas de yuca en tres clases: hoja sana (`healthy`), estría parda (`cbsd`, *Cassava Brown Streak Disease*) y mosaico (`cmd`, *Cassava Mosaic Disease*). Es un proyecto del curso de Ciencias de la Computación de la Universidad Santo Tomás, Bucaramanga.
+YucaAI clasifica fotografías de hojas de yuca en tres clases: hoja sana (`healthy`), estría parda (`cbsd`, *Cassava Brown Streak Disease*) y mosaico (`cmd`, *Cassava Mosaic Disease*). Es un proyecto del curso de Ciencias de la Computación II de la Universidad Surcolombiana.
 
 La aplicación entrega puntuaciones de un modelo de aprendizaje automático; no constituye un diagnóstico agronómico definitivo. Ante síntomas en cultivo, el resultado debe confirmarse con personal técnico o un laboratorio fitosanitario.
 

@@ -4,7 +4,6 @@ YucaAI clasifica fotografías de hojas de yuca en tres clases: hoja sana (`healt
 
 La aplicación entrega puntuaciones de un modelo de aprendizaje automático; no constituye un diagnóstico agronómico definitivo. Ante síntomas en cultivo, el resultado debe confirmarse con personal técnico o un laboratorio fitosanitario.
 
-El documento principal del trabajo es **“Artículo integrado – Detección de mosaico y estría parda en yuca”**. Su ubicación en el repositorio está pendiente de confirmar.
 
 ## Tabla de contenidos
 
@@ -70,7 +69,7 @@ YucaAI/
         └── App.tsx, main.tsx, styles/ # Entrada y estilos de la aplicación
 ```
 
-También están disponibles [la guía del frontend](frontend/README.md) y [el contrato API resumido](frontend/docs/API_CONTRACT.md). Si hubiera discrepancia, prevalece el código de `backend/main.py` y los módulos de `frontend/src/`.
+También están disponibles [la guía del frontend](frontend/README.md) y [el contrato API resumido](frontend/docs/API_CONTRACT.md).
 
 ## Requisitos
 
@@ -167,7 +166,7 @@ curl.exe -F "file=@C:\ruta\a\hoja.jpg" http://localhost:8000/predict
 | `GET /docs` | Interfaz Swagger de FastAPI. |
 | `POST /predict` | Recibe `multipart/form-data` con el campo obligatorio `file`. |
 
-Ejemplos ilustrativos de respuesta; los valores no son resultados garantizados.
+
 
 ```json
 {
@@ -284,20 +283,9 @@ Los siguientes valores provienen del artículo integrado y deben interpretarse c
 | MobileNetV3Large | 92,33 % exactitud; 3,00 M parámetros | Resultado en prueba informado por el artículo. |
 | Ensamble con umbrales | 96,74 % | Exploratorio: pesos y umbrales se eligieron usando etiquetas del mismo conjunto de prueba. No es una precisión validada; requiere datos independientes. |
 
-Consulte **“Artículo integrado – Detección de mosaico y estría parda en yuca”** como fuente principal de metodología y resultados.
 
-## Limitaciones y trabajo futuro
+## Créditos
 
-- Validar externamente con fotografías de campo independientes.
-- Ajustar los umbrales con un conjunto de validación independiente.
-- Mejorar el rendimiento de inferencia en CPU.
-- Restringir CORS para despliegues reales.
-- Desplegar con HTTPS.
-- Mantener `YUCAAI_DEBUG` desactivado y eliminar cualquier imagen de depuración cuando ya no sea necesaria.
-
-## Créditos y licencia
-
-- Autores: Pendiente de definir.
-- Curso: Ciencias de la Computación, Universidad Santo Tomás, Bucaramanga.
-- Docente: Pendiente de definir.
-- Licencia: Pendiente de definir.
+- Autores: Juan David Camacho, José Esteban Córdoba.
+- Curso: Ciencias de la Computación II, Universidad Surcolombiana.
+- Docente: Daniela Alarcón.

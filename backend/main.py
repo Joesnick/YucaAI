@@ -67,15 +67,18 @@ UMBRAL_CONFIABLE = 0.70
 
 # Carpeta para guardar imágenes de debug
 DEBUG_DIR = "debug_imgs"
+DEBUG_ENABLED = os.getenv("YUCAAI_DEBUG", "") == "1"
 
 
 @app.on_event("startup")
 async def startup_event():
     """Carga los 4 modelos al iniciar el servidor."""
-    print("🚀 Iniciando servidor...")
+    print("Iniciando servidor...")
     cargar_modelos("models")
-    os.makedirs(DEBUG_DIR, exist_ok=True)
-    print("✅ Servidor listo para recibir peticiones.")
+    if DEBUG_ENABLED:
+        os.makedirs(DEBUG_DIR, exist_ok=True)
+        print("Guardado de imágenes de depuración habilitado.")
+    print("Servidor listo para recibir peticiones.")
 
 
 @app.get("/")
@@ -130,15 +133,16 @@ async def predict(file: UploadFile = File(...)):
         img_rgb = np.array(img_pil)
 
         # -------------------------------------------------------------
-        # 3. Guardar imagen de debug (útil para diagnóstico)
+        # 3. Guardar solo en modo de depuración explícitamente habilitado
         # -------------------------------------------------------------
-        try:
-            img_pil.resize((224, 224)).save(
-                os.path.join(DEBUG_DIR, 'ultima_entrada.jpg'),
-                quality=90
-            )
-        except Exception as e:
-            print(f"⚠️ No se pudo guardar imagen de debug: {e}")
+        if DEBUG_ENABLED:
+            try:
+                img_pil.resize((224, 224)).save(
+                    os.path.join(DEBUG_DIR, 'ultima_entrada.jpg'),
+                    quality=90
+                )
+            except Exception as e:
+                print(f"No se pudo guardar imagen de debug: {e}")
 
         # -------------------------------------------------------------
         # 4. Predicción con ensemble + TTA + umbrales

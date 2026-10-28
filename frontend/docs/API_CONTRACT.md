@@ -24,7 +24,7 @@ Successful response:
 }
 ```
 
-The frontend maps `prediccion` and `probabilidades` to its visible classes. If the backend returns `valid: false`, the frontend displays `message`, `razon`, and suggestions as a validation error. Backend warnings are shown with the result.
+The frontend maps `prediccion` and `probabilidades` to its visible classes. If the backend returns `valid: false`, the frontend displays `message`, `razon`, and suggestions as an image-rejection notice, without score bars. Backend warnings are shown with the result.
 
 ## CORS
 

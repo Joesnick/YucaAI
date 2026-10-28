@@ -26,7 +26,7 @@ El frontend usa `http://localhost:8000` por defecto. Cambia la URL con `VITE_API
 | `VITE_API_HEALTH_PATH`                 | `/`                                    | Endpoint opcional de salud.                                           |
 | `VITE_API_PREDICT_PATH`                | `/predict`                                   | Clasificación.                                                        |
 | `VITE_API_IMAGE_FIELD`                 | `file`                                       | Campo multipart de la imagen original.                                |
-| `VITE_API_TIMEOUT_MS`                  | `30000`                                      | Tiempo máximo por solicitud.                                          |
+| `VITE_API_TIMEOUT_MS`                  | `90000`                                      | Tiempo máximo por solicitud.                                          |
 | `VITE_MODEL_NAME`                      | `Modelo del servidor`                        | Nombre visual del modelo desplegado.                                  |
 | `VITE_API_MODEL_ID`                    | vacío                                        | Opcional: se manda solo si el backend lo exige.                       |
 | `VITE_API_MODEL_FIELD`                 | vacío                                        | Nombre del campo opcional `model_id`.                                 |

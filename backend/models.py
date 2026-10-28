@@ -27,13 +27,13 @@ def cargar_modelos(base_path: str = "models"):
         ruta = os.path.join(base_path, config['archivo'])
         if not os.path.exists(ruta):
             raise FileNotFoundError(f"No se encontró el modelo: {ruta}")
-        print(f"🔄 Cargando {nombre}...")
+        print(f"Cargando {nombre}...")
         _modelos_cargados[nombre] = {
             'modelo': tf.keras.models.load_model(ruta),
             'peso': config['peso']
         }
-        print(f"   ✅ {nombre} cargado")
-    print(f"✅ Total: {len(_modelos_cargados)} modelos cargados")
+        print(f"   {nombre} cargado")
+    print(f"Total: {len(_modelos_cargados)} modelos cargados")
 
 
 def obtener_modelos():

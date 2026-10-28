@@ -25,6 +25,7 @@ export interface ApiPredictResponse {
   class?: string;
   scores?: Record<string, number> | number[] | Array<{ label?: string; class?: string; name?: string; score?: number; probability?: number; confidence?: number }>;
   probabilities?: Record<string, number> | number[];
+  probabilidades?: Record<string, number> | number[];
   class_names?: string[];
   labels?: string[];
   model?: string;

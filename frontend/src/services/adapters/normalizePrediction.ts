@@ -12,6 +12,8 @@ export interface NormalizedPrediction {
   warnings: string[];
   modelReported?: string;
   backendInferenceMs?: number;
+  reliable?: boolean;
+  recommendation?: string;
 }
 
 export class PredictionFormatError extends Error {
@@ -37,7 +39,7 @@ function isNum(v: unknown): v is number {
 
 /** Extrae pares (etiqueta, valor) de cualquiera de las variantes aceptadas. */
 function extractPairs(r: ApiPredictResponse, warnings: string[]): Array<{ rawLabel: string; value: number }> {
-  const source = r.scores ?? r.probabilities ?? (r as ApiPredictResponse & { probabilidades?: Record<string, number> | number[] }).probabilidades;
+  const source = r.scores ?? r.probabilities ?? r.probabilidades;
   const names = r.class_names ?? r.labels;
   if (source === undefined || source === null) {
     throw new PredictionFormatError('La respuesta del servidor no incluye puntuaciones (campo "scores" o "probabilities").');
@@ -127,7 +129,7 @@ export function normalizePrediction(payload: unknown): NormalizedPrediction {
     predictedKey = k;
     if (k !== top.key) {
       warnings.push(
-        `La clase indicada por el servidor (${labelOf(k)}) no es la de mayor puntuación (${top.label}). El modelo puede aplicar umbrales propios.`,
+        `El servidor aplica umbrales por clase para priorizar la detección de enfermedades; la clase predicha puede no ser la de mayor puntuación.`,
       );
     }
   } else {
@@ -150,5 +152,7 @@ export function normalizePrediction(payload: unknown): NormalizedPrediction {
     warnings,
     modelReported,
     backendInferenceMs: inf,
+    reliable: typeof r.confiable === 'boolean' ? r.confiable : undefined,
+    recommendation: typeof r.recomendacion === 'string' ? r.recomendacion : undefined,
   };
 }
